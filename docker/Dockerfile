@@ -7,4 +7,4 @@ RUN apt-get update && \
     apt-get clean && \
 rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-CMD ["php", "-S", "0.0.0.0:8000", "-t", "/awesome-store", "/awesome-store/index.php"]
+WORKDIR awesome-store
