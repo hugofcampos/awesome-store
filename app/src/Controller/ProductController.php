@@ -8,17 +8,26 @@ use App\TheIconic;
 
 class ProductController extends Controller
 {
+    const PAGE_SIZE = 10;
+
     /**
      * @var TheIconic\Products
      */
     private $service;
 
     /**
-     * @param TheIconic\Products $service
+     * @var TheIconic\Paginator
      */
-    public function __construct(TheIconic\Products $service)
+    private $paginator;
+
+    /**
+     * @param TheIconic\Products  $service
+     * @param TheIconic\Paginator $paginator
+     */
+    public function __construct(TheIconic\Products $service, TheIconic\Paginator $paginator)
     {
         $this->service = $service;
+        $this->paginator = $paginator;
     }
 
     /**
@@ -28,14 +37,15 @@ class ProductController extends Controller
     public function list(Request $request) : Response
     {
         $query = $request->query->get('q', '');
+        $page = $request->query->get('page', 1);
 
-        $products = $this->service->search($query);
+        $this->paginator->paginate($query, $page, self::PAGE_SIZE);
 
         return $this->render(
             'product/list.html.twig',
             [
                 'query' => $query,
-                'products' => $products,
+                'paginator' => $this->paginator,
             ]
         );
     }

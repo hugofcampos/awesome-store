@@ -23,17 +23,23 @@ class Products
 
     /**
      * @param  string $query
-     * @return array
+     * @param  int    $page
+     * @param  int    $pageSize
+     * @return Paginator
      */
-    public function search(string $query)
+    public function search(string $query, int $page, int $pageSize)
     {
         $response = $this->client->request('GET', self::SERVICE, [
-            'query' => ['q' => $query]
+            'query' => [
+                'q' => $query,
+                'page' => $page,
+                'page_size' => $pageSize,
+            ]
         ]);
 
         $content = json_decode($response->getBody());
 
-        return $content->_embedded->product;
+        return $content;
     }
 
     /**

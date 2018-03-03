@@ -21,13 +21,16 @@ class ProductsTest extends TestCase
         $guzzle
             ->expects($this->once())
             ->method('request')
-            ->with('GET', 'https://eve.theiconic.com.au/catalog/products', ['query' => ['q' => 'some-text']])
+            ->with(
+                'GET',
+                'https://eve.theiconic.com.au/catalog/products',
+                ['query' => ['q' => 'some-text', 'page' => 1, 'page_size' => 10]])
             ->will($this->returnValue($response));
 
         $products = new Products($guzzle);
-        $result = $products->search('some-text');
+        $result = $products->search('some-text', 1, 10);
 
-        $this->assertEquals(['example-product'], $result);
+        $this->assertEquals(json_decode($body), $result);
     }
 
     public function testGetProductBySku()
@@ -62,7 +65,7 @@ class ProductsTest extends TestCase
      */
     public function testGetProductBySkuNotFound()
     {
-        $body = json_decode(json_encode(['example-product']));
+        $body = json_encode(['example-product']);
 
         $response = $this->createMock(\GuzzleHttp\Psr7\Response::class);
         $response
@@ -80,7 +83,7 @@ class ProductsTest extends TestCase
             ->with('GET', 'https://eve.theiconic.com.au/catalog/products/some-sku')
             ->will($this->returnValue($response));
 
-        $calculator = new Products($guzzle);
-        $calculator->get('some-sku');
+        $products = new Products($guzzle);
+        $products->get('some-sku');
     }
 }

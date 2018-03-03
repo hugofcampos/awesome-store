@@ -3,9 +3,12 @@
 {% block title %}Awesome Store - Our products{% endblock %}
 
 {% block body %}
-    {% for product in products %}
+    {{ include('product/navbar.html.twig', { 'paginator': paginator }) }}
+
+    {% for product in paginator.content %}
         {{ include('product/preview.html.twig', { 'product': product }) }}
     {% endfor %}
+
 {% endblock %}
 
 
