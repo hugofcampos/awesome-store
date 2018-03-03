@@ -1,5 +1,5 @@
-<p>SKU: {{ product }}</p>
-<p>Name</p>
-<p>Price</p>
-<p>Brand name</p>
-<p>Image</p>
+<p>SKU: {{ product.sku }}</p>
+<p>Name: {{ product.name }}</p>
+<p>Price: {{ product.price }}</p>
+<p>Brand: {{ product._embedded.brand.name }}</p>
+<p>Image: <img src="{{ product._embedded.images.0.thumbnail }}" style="max-height: 100px"/></p>
