@@ -9,6 +9,10 @@
         <h1>Awesome Store</h1>
 
         <div id="content">
+            <form action="{{ path('product') }}">
+                Search products: <input type="text" name="q" value="{{ query }}"/>
+            </form>
+
             {% block body %}{% endblock %}
         </div>
         {% block javascripts %}{% endblock %}

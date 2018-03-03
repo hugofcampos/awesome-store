@@ -2,18 +2,29 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\TheIconic;
 
 class ProductController extends Controller
 {
-    public function list(TheIconic\Products $service) : Response
+    /**
+     * @param  Request            $request
+     * @param  TheIconic\Products $service
+     * @return Response
+     */
+    public function list(Request $request, TheIconic\Products $service) : Response
     {
-        $products = $service->get();
+        $query = $request->query->get('q', '');
+
+        $products = $service->get($query);
 
         return $this->render(
             'product/list.html.twig',
-            ['products' => $products]
+            [
+                'query' => $query,
+                'products' => $products,
+            ]
         );
     }
 }

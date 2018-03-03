@@ -21,11 +21,11 @@ class ProductsTest extends TestCase
         $guzzle
             ->expects($this->once())
             ->method('request')
-            ->with('GET', 'https://eve.theiconic.com.au/catalog/products')
+            ->with('GET', 'https://eve.theiconic.com.au/catalog/products', ['query' => ['q' => 'some-text']])
             ->will($this->returnValue($response));
 
         $products = new Products($guzzle);
-        $result = $products->get();
+        $result = $products->get('some-text');
 
         $this->assertEquals(['example-product'], $result);
     }
