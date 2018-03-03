@@ -5,3 +5,7 @@ index:
 product:
     path: /product
     controller: App\Controller\ProductController::list
+
+details:
+    path: /product/{sku}
+    controller: App\Controller\ProductController::details

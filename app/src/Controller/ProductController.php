@@ -27,4 +27,15 @@ class ProductController extends Controller
             ]
         );
     }
+
+    /**
+     * @param  string $sku
+     * @return Response
+     */
+    public function details(string $sku)
+    {
+        return $this->render(
+            'product/details.html.twig'
+        );
+    }
 }

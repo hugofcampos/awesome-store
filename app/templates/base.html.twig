@@ -10,7 +10,7 @@
 
         <div id="content">
             <form action="{{ path('product') }}">
-                Search products: <input type="text" name="q" value="{{ query }}"/>
+                Search products: <input type="text" name="q" value="{{ query|default('') }}"/>
             </form>
 
             {% block body %}{% endblock %}
