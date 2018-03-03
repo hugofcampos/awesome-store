@@ -9,15 +9,27 @@ use App\TheIconic;
 class ProductController extends Controller
 {
     /**
-     * @param  Request            $request
-     * @param  TheIconic\Products $service
+     * @var TheIconic\Products
+     */
+    private $service;
+
+    /**
+     * @param TheIconic\Products $service
+     */
+    public function __construct(TheIconic\Products $service)
+    {
+        $this->service = $service;
+    }
+
+    /**
+     * @param  Request $request
      * @return Response
      */
-    public function list(Request $request, TheIconic\Products $service) : Response
+    public function list(Request $request) : Response
     {
         $query = $request->query->get('q', '');
 
-        $products = $service->get($query);
+        $products = $this->service->search($query);
 
         return $this->render(
             'product/list.html.twig',
@@ -34,8 +46,13 @@ class ProductController extends Controller
      */
     public function details(string $sku)
     {
+        $product = $this->service->get($sku);
+
         return $this->render(
-            'product/details.html.twig'
+            'product/details.html.twig',
+            [
+                'product' => $product
+            ]
         );
     }
 }

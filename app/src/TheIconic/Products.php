@@ -25,7 +25,7 @@ class Products
      * @param  string $query
      * @return array
      */
-    public function get(string $query)
+    public function search(string $query)
     {
         $response = $this->client->request('GET', self::SERVICE, [
             'query' => ['q' => $query]
@@ -34,5 +34,18 @@ class Products
         $content = json_decode($response->getBody());
 
         return $content->_embedded->product;
+    }
+
+    /**
+     * @param  string $sku
+     * @return array
+     */
+    public function get(string $sku)
+    {
+        $response = $this->client->request('GET', sprintf('%s/%s', self::SERVICE, $sku));
+
+        $content = json_decode($response->getBody());
+
+        return $content;
     }
 }

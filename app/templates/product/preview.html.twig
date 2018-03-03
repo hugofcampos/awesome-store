@@ -3,3 +3,4 @@
 <p>Price: {{ product.price }}</p>
 <p>Brand: {{ product._embedded.brand.name }}</p>
 <p>Image: <img src="{{ product._embedded.images.0.thumbnail }}" style="max-height: 100px"/></p>
+<p><a href="{{ path('details', {sku: product.sku}) }}">Details</a></p>

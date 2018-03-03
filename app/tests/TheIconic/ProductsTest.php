@@ -7,7 +7,7 @@ use App\TheIconic\Products;
 
 class ProductsTest extends TestCase
 {
-    public function testGetProductList()
+    public function testSearchProducts()
     {
         $body = json_encode(['_embedded'=>['product'=>['example-product']]]);
 
@@ -25,7 +25,30 @@ class ProductsTest extends TestCase
             ->will($this->returnValue($response));
 
         $products = new Products($guzzle);
-        $result = $products->get('some-text');
+        $result = $products->search('some-text');
+
+        $this->assertEquals(['example-product'], $result);
+    }
+
+    public function testGetProductBySku()
+    {
+        $body = json_encode(['example-product']);
+
+        $response = $this->createMock(\GuzzleHttp\Psr7\Response::class);
+        $response
+            ->expects($this->once())
+            ->method('getBody')
+            ->will($this->returnValue($body));
+
+        $guzzle = $this->createMock(\GuzzleHttp\Client::class);
+        $guzzle
+            ->expects($this->once())
+            ->method('request')
+            ->with('GET', 'https://eve.theiconic.com.au/catalog/products/some-sku')
+            ->will($this->returnValue($response));
+
+        $products = new Products($guzzle);
+        $result = $products->get('some-sku');
 
         $this->assertEquals(['example-product'], $result);
     }

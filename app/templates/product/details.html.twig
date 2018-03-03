@@ -3,13 +3,12 @@
 {% block title %}Awesome Store - Our products{% endblock %}
 
 {% block body %}
-<h2>An awesome product</h2>
+<h2>{{ product.name }}</h2>
 
-<p>SKU</p>
-<p>Name</p>
-<p>Price</p>
-<p>Brand</p>
-<p>Image</p>
+<p>SKU: {{ product.sku }}</p>
+<p>Price: {{ product.price }}</p>
+<p>Brand: {{ product._embedded.brand.name }}</p>
+<p>Image: <img src="{{ product._embedded.images.0.thumbnail }}" style="max-height: 100px"/></p>
 {% endblock %}
 
 
