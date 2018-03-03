@@ -9,3 +9,7 @@ product:
 details:
     path: /product/{sku}
     controller: App\Controller\ProductController::details
+
+_errors:
+    resource: '@TwigBundle/Resources/config/routing/errors.xml'
+    prefix:   /_error

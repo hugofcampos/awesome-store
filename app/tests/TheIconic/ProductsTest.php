@@ -37,6 +37,10 @@ class ProductsTest extends TestCase
         $response = $this->createMock(\GuzzleHttp\Psr7\Response::class);
         $response
             ->expects($this->once())
+            ->method('getStatusCode')
+            ->will($this->returnValue(200));
+        $response
+            ->expects($this->once())
             ->method('getBody')
             ->will($this->returnValue($body));
 
@@ -51,5 +55,32 @@ class ProductsTest extends TestCase
         $result = $products->get('some-sku');
 
         $this->assertEquals(['example-product'], $result);
+    }
+
+    /**
+     * @expectedException App\TheIconic\ProductNotFoundException
+     */
+    public function testGetProductBySkuNotFound()
+    {
+        $body = json_decode(json_encode(['example-product']));
+
+        $response = $this->createMock(\GuzzleHttp\Psr7\Response::class);
+        $response
+            ->expects($this->once())
+            ->method('getStatusCode')
+            ->will($this->returnValue(404));
+        $response
+            ->expects($this->never())
+            ->method('getBody');
+
+        $guzzle = $this->createMock(\GuzzleHttp\Client::class);
+        $guzzle
+            ->expects($this->once())
+            ->method('request')
+            ->with('GET', 'https://eve.theiconic.com.au/catalog/products/some-sku')
+            ->will($this->returnValue($response));
+
+        $calculator = new Products($guzzle);
+        $calculator->get('some-sku');
     }
 }

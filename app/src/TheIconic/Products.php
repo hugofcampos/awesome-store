@@ -39,10 +39,15 @@ class Products
     /**
      * @param  string $sku
      * @return array
+     * @throws ProductNotFoundException
      */
     public function get(string $sku)
     {
         $response = $this->client->request('GET', sprintf('%s/%s', self::SERVICE, $sku));
+
+        if (404 == $response->getStatusCode()) {
+            throw new ProductNotFoundException;
+        }
 
         $content = json_decode($response->getBody());
 

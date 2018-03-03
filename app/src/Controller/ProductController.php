@@ -46,7 +46,7 @@ class ProductController extends Controller
      */
     public function details(string $sku)
     {
-        $product = $this->service->get($sku);
+        $product = $this->findProduct($sku);
 
         return $this->render(
             'product/details.html.twig',
@@ -54,5 +54,18 @@ class ProductController extends Controller
                 'product' => $product
             ]
         );
+    }
+
+    /**
+     * @param  string $sku
+     * @return array
+     */
+    protected function findProduct(string $sku)
+    {
+        try {
+            return $this->service->get($sku);
+        } catch(TheIconic\ProductNotFoundException $exception) {
+            throw $this->createNotFoundException();
+        }
     }
 }
