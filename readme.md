@@ -18,7 +18,7 @@ Then, you need to set the application up.
 Installing app dependencies
 
 ```bash
-docker exec web bash  -c "php bin/console server:start 0.0.0.0:8000"
+docker exec web bash  -c "composer install"
 ```
 
 Running app
