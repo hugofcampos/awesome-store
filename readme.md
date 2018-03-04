@@ -1,5 +1,7 @@
 # Awesome Store
 
+[See some screenshots here](screenshots.md)
+
 ## Running app
 
 Requirements
