@@ -1,6 +1,6 @@
 # Awesome Store
 
-[See some screenshots here](screenshots.md)
+[See some screenshots here](screenshots/screenshots.md)
 
 ## Running app
 
