@@ -3,12 +3,15 @@
 {% block title %}Awesome Store - Our products{% endblock %}
 
 {% block body %}
-    {{ include('product/navbar.html.twig', { 'paginator': paginator }) }}
+    <div class="paginated">
+        {{ include('navbar.html.twig', { 'paginator': paginator }) }}
 
-    {% for product in paginator.content %}
-        {{ include('product/preview.html.twig', { 'product': product }) }}
-    {% endfor %}
+        <div class="list">
+            {% for product in paginator.content %}
+                {{ include('product/preview.html.twig', { 'product': product }) }}
+            {% endfor %}
+        </div>
 
+        {{ include('navbar.html.twig', { 'paginator': paginator }) }}
+    </div>
 {% endblock %}
-
-

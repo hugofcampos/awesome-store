@@ -1,0 +1,11 @@
+<div class="navbar">
+    <span class="current">Page {{ paginator.page }} of {{ paginator.items }}</span>
+
+    {% if paginator.page - 1 > 0 %}
+    <a href="{{ path('product', {q:query, page:paginator.page - 1}) }}"/>Previous</a>
+    {% endif %}
+
+    {% if paginator.page + 1 <= paginator.items %}
+    <a href="{{ path('product', {q:query, page:paginator.page + 1}) }}"/>Next</a>
+    {% endif %}
+</div>

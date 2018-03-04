@@ -3,12 +3,34 @@
 {% block title %}Awesome Store - Our products{% endblock %}
 
 {% block body %}
-<h2>{{ product.name }}</h2>
 
-<p>SKU: {{ product.sku }}</p>
-<p>Price: {{ product.price }}</p>
-<p>Brand: {{ product._embedded.brand.name }}</p>
-<p>Image: <img src="{{ product._embedded.images.0.thumbnail }}" style="max-height: 100px"/></p>
+<div class="info">
+    <div class="picture">
+        <img src="{{ product._embedded.images.0.thumbnail }}"/>
+    </div>
+
+    <div class="attributes">
+        <span class="brand">
+            {% if product._embedded.brand.image_url is defined  %}
+                <img src="{{ product._embedded.brand.image_url }}"/>
+            {% else %}
+                {{ product._embedded.brand.name }}
+            {% endif %}
+        </span>
+        <span class="title">{{ product.name }}</span>
+        <span class="price">${{ product.price|number_format(2, '.', ',') }}</span>
+        <span class="colors">
+            Color: <span class="color-bullet" style="background-color: {{ product.color_hex }}"></span> ({{ product.color_name }})
+        </span>
+
+        <span class="buy"><button title="Coming soon...">Add to bag</button></span>
+
+        <hr/>
+        <span class="description-header">Description</span>
+        <span class="description">{{ product.short_description|raw }}</span>
+        <span class="sku">SKU: {{ product.sku }}</span>
+    </div>
+
 {% endblock %}
 
 

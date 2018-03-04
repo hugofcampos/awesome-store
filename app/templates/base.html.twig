@@ -4,16 +4,20 @@
         <meta charset="UTF-8">
         <title>{% block title %}Awesome Store{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
+
+        <link href="{{ asset('css/style.css') }}" rel="stylesheet" />
     </head>
     <body>
-        <h1>Awesome Store</h1>
+        <div class="container-box">
+            <header>
+                <h1>Awesome Store</h1>
+            </header>
 
-        <div id="content">
-            <form action="{{ path('product') }}">
-                Search products: <input type="text" name="q" value="{{ query|default('') }}"/>
-            </form>
+            {{ include('search.html.twig', { 'query': query|default('') }) }}
 
-            {% block body %}{% endblock %}
+            <div class="content">
+                {% block body %}{% endblock %}
+            </div>
         </div>
         {% block javascripts %}{% endblock %}
     </body>
