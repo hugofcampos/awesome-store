@@ -49,10 +49,13 @@ class Products
      */
     public function get(string $sku)
     {
-        $response = $this->client->request('GET', sprintf('%s/%s', self::SERVICE, $sku));
-
-        if (404 == $response->getStatusCode()) {
-            throw new ProductNotFoundException;
+        try {
+            $response = $this->client->request('GET', sprintf('%s/%s', self::SERVICE, $sku));
+        } catch (GuzzleHttp\Exception\ClientException $exception) {
+            if (404 == $exception->getResponse()->getStatusCode()) {
+                throw new ProductNotFoundException;
+            }
+            throw $exception;
         }
 
         $content = json_decode($response->getBody());

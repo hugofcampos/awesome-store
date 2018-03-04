@@ -40,10 +40,6 @@ class ProductsTest extends TestCase
         $response = $this->createMock(\GuzzleHttp\Psr7\Response::class);
         $response
             ->expects($this->once())
-            ->method('getStatusCode')
-            ->will($this->returnValue(200));
-        $response
-            ->expects($this->once())
             ->method('getBody')
             ->will($this->returnValue($body));
 
@@ -76,12 +72,18 @@ class ProductsTest extends TestCase
             ->expects($this->never())
             ->method('getBody');
 
+        $exception = $this->createMock(\GuzzleHttp\Exception\ClientException::class);
+        $exception
+            ->expects($this->once())
+            ->method('getResponse')
+            ->will($this->returnValue($response));
+
         $guzzle = $this->createMock(\GuzzleHttp\Client::class);
         $guzzle
             ->expects($this->once())
             ->method('request')
             ->with('GET', 'https://eve.theiconic.com.au/catalog/products/some-sku')
-            ->will($this->returnValue($response));
+            ->will($this->throwException($exception));
 
         $products = new Products($guzzle);
         $products->get('some-sku');
